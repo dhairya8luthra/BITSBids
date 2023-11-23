@@ -33,7 +33,9 @@ import {
 import SearchBar from '../components/SearchBar';
 import Footer from '../components/footerMain';
 import ProductAddToCart from '../components/ProductCard';
+import ListingForm from '../components/ListingForm'
 const LinkItems = [
+
   { name: 'Home', icon: FiHome },
   { name: 'Your Listings', icon: FiTrendingUp },
   { name: 'Chats', icon: FiCompass },
@@ -216,10 +218,7 @@ const SidebarWithHeader = () => {
       <Box ml={{ base: 0, md: 60 }} p="4">
         {/* Conentt */}
         <Flex>
-        <ProductAddToCart></ProductAddToCart>
-        <ProductAddToCart></ProductAddToCart>
-        <ProductAddToCart></ProductAddToCart>
-        <ProductAddToCart></ProductAddToCart>
+        <ListingForm></ListingForm>
         </Flex>
         <Footer></Footer> 
       </Box>
