@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react';
 import Lottie from 'react-lottie-player'
 import BitsBidsLottie from '../lotties/market.json'
-import {Slide} from 'react-awesome-reveal'
+import {JackInTheBox} from 'react-awesome-reveal'
 function CallToActionWithAnnotation() {
   return (
     <Container maxW={'3xl'}>
@@ -21,6 +21,7 @@ function CallToActionWithAnnotation() {
         textAlign={'center'}
         spacing={{ base: 8, md: 14 }}
         py={{ base: 20, md: 36 }}>
+        <JackInTheBox triggerOnce>
         <Heading
           fontWeight={600}
           fontSize={{ base: '2xl', sm: '4xl', md: '6xl' }}
@@ -30,6 +31,8 @@ function CallToActionWithAnnotation() {
             BitsBids
           </Text>
         </Heading>
+        
+        </JackInTheBox>
         <Center>
         <Lottie   animationData={BitsBidsLottie}
           play

@@ -31,7 +31,7 @@ export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
 
   return (
-    <Box position='fixed' left='0' right ='0' top='0' w = '100%' >
+    <Box position='fixed' left='0' right ='0' top='0' w = '100%' zIndex='10' >
       <Flex h="20"  alignItems="center" mx="0" justifyContent="space-between"
         bg={useColorModeValue('white', 'gray.800')}
         color={useColorModeValue('gray.600', 'white')}
@@ -247,5 +247,9 @@ const NAV_ITEMS = [
     {
         label:'Meet The Team',
         href:'/team'
+    },
+    {
+        label:'Features',
+        href:"/#"
     }
 ]
