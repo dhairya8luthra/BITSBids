@@ -218,7 +218,11 @@ const SidebarWithHeader = () => {
       <Box ml={{ base: 0, md: 60 }} p="4">
         {/* Conentt */}
         <Flex>
-        <ListingForm></ListingForm>
+        <ProductAddToCart></ProductAddToCart>
+        <ProductAddToCart></ProductAddToCart>
+        <ProductAddToCart></ProductAddToCart>
+        <ProductAddToCart></ProductAddToCart>
+        <ProductAddToCart></ProductAddToCart>
         </Flex>
         <Footer></Footer> 
       </Box>
