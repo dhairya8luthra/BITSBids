@@ -1,6 +1,7 @@
-import React from "react";
+import React from 'react';
 import logo from "../../assets/logo.svg"
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import {
   Box,
@@ -10,29 +11,86 @@ import {
   Button,
   Stack,
   Collapse,
-  Icon,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
   useColorModeValue,
-  useBreakpointValue,
   useDisclosure,
   Image,
-  
 } from '@chakra-ui/react';
 import {
   HamburgerIcon,
   CloseIcon,
-  ChevronDownIcon,
-  ChevronRightIcon,
 } from '@chakra-ui/icons';
 
-export default function WithSubnavigation() {
+const NavBar = () => {
   const { isOpen, onToggle } = useDisclosure();
 
+  const NAV_ITEMS = [
+    {
+      label: 'What is BitsBids?',
+      href: '#introSection',
+    },
+    {
+      label: 'Meet The Team',
+      href: '#teamSection',
+    },
+    {
+      label: 'Features',
+      href: '#featuresSection',
+    },
+  ];
+
+  const scrollToSection = (sectionId) => {
+    const section = document.querySelector(sectionId);
+    
+    if (section) {
+      const yOffset = -60; // Adjust this offset according to your layout (if needed)
+      const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+      console.log("scrolling to ", sectionId)
+     // onToggle(); // Close the mobile menu after clicking on a section link
+    }
+  };
+
+  const MobileNavItem = ({ label, children, href }) => {
+    const handleClick = () => {
+      console.log("clicked", href);
+      scrollToSection(href);
+    };
+
+    return (
+      <Stack spacing={4}>
+        <Button
+          zIndex="2"
+          ms={2}
+          py={2}
+          variant="unstyled"
+          fontWeight={600}
+          color={useColorModeValue('gray.600', 'gray.200')}
+          bg="white"
+          _hover={{
+            textDecoration: 'none',
+            color: useColorModeValue('gray.800', 'white'),
+            bg: useColorModeValue('white', 'yellow.400'),
+          }}
+          _active={{
+            bg: useColorModeValue('yellow.400', 'yellow.500'),
+            transform: 'scale(0.98)',
+          }}
+          onClick={handleClick}
+          style={{ cursor: 'pointer' }}
+        >
+          {label}
+        </Button>
+      </Stack>
+    );
+  };
+
   return (
-    <Box position='fixed' left='0' right ='0' top='0' w = '100%' zIndex='10' >
-      <Flex h="20"  alignItems="center" mx="0" justifyContent="space-between"
+    <Box position='fixed' left='0' right='0' top='0' w='100%' zIndex='10'>
+      <Flex
+        h="20"
+        alignItems="center"
+        mx="0"
+        justifyContent="space-between"
         bg={useColorModeValue('white', 'gray.800')}
         color={useColorModeValue('gray.600', 'white')}
         minH={'60px'}
@@ -54,19 +112,20 @@ export default function WithSubnavigation() {
           />
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-        <Image
-         borderRadius='full'
-         boxSize='50px'
-          src={logo}
+          <Image
+            borderRadius='full'
+            boxSize='50px'
+            src={logo}
             alt='Bits Bids Logo'
-          className='flip'
+            className='flip'
           />
-        <Text paddingTop='0.5rem' paddingLeft='0.5rem' fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-          BitsBids
-        </Text>
-      
+          <Text paddingTop='0.5rem' paddingLeft='0.5rem' fontSize="2xl" fontFamily="monospace" fontWeight="bold">
+            BitsBids
+          </Text>
           <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
-            <DesktopNav />
+            {NAV_ITEMS.map((navItem) => (
+              <MobileNavItem key={navItem.label} {...navItem} />
+            ))}
           </Flex>
         </Flex>
 
@@ -75,11 +134,12 @@ export default function WithSubnavigation() {
           justify={'flex-end'}
           direction={'row'}
           spacing={6}>
-          <Button as={'a'} fontSize={'sm'} fontWeight={400} variant={'link'} href={'#'}>
+          <Button as={Link} to= "/login" fontSize={'sm'} fontWeight={400} variant={'link'} href={'#'}>
             Login
           </Button>
           <Button
-            as={'a'}
+            as={Link}
+            to ="/register"
             display={{ base: 'none', md: 'inline-flex' }}
             fontSize={'sm'}
             fontWeight={600}
@@ -95,161 +155,14 @@ export default function WithSubnavigation() {
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>
-        <MobileNav />
+        <Box bg={useColorModeValue('white', 'gray.800')} p={4} display={{ md: 'none' }}>
+          {NAV_ITEMS.map((navItem) => (
+            <MobileNavItem key={navItem.label} {...navItem} />
+          ))}
+        </Box>
       </Collapse>
     </Box>
   );
-}
-
-const DesktopNav = () => {
-  const linkColor = useColorModeValue('gray.600', 'gray.200');
-  const linkHoverColor = useColorModeValue('gray.800', 'white');
-  const popoverContentBgColor = useColorModeValue('white', 'gray.800');
-
-  return (
-    <Stack direction={'row'} spacing={4}>
-      {NAV_ITEMS.map((navItem) => (
-        <Box padding='0.5rem' key={navItem.label}>
-          <Popover trigger={'hover'} placement={'bottom-start'}>
-            <PopoverTrigger>
-              <Box
-                as="a"
-                p={2}
-                href={navItem.href ?? '#'}
-                fontSize={'sm'}
-                fontWeight={500}
-                color={linkColor}
-                _hover={{
-                  textDecoration: 'none',
-                  color: linkHoverColor,
-                }}>
-                {navItem.label}
-              </Box>
-            </PopoverTrigger>
-
-            {navItem.children && (
-              <PopoverContent
-                border={0}
-                boxShadow={'xl'}
-                bg={popoverContentBgColor}
-                p={4}
-                rounded={'xl'}
-                minW={'sm'}>
-                <Stack>
-                  {navItem.children.map((child) => (
-                    <DesktopSubNav key={child.label} {...child} />
-                  ))}
-                </Stack>
-              </PopoverContent>
-            )}
-          </Popover>
-        </Box>
-      ))}
-    </Stack>
-  );
 };
 
-const DesktopSubNav = ({ label, href, subLabel }) => {
-  return (
-    <Box
-      as="a"
-      href={href}
-      role={'group'}
-      display={'block'}
-      p={2}
-      rounded={'md'}
-      _hover={{ bg: useColorModeValue('yellow.50', 'gray.900') }}>
-      <Stack direction={'row'} align={'center'}>
-        <Box>
-          <Text paddingTop='0.5'
-            transition={'all .3s ease'}
-            fontWeight={500}>
-            {label}
-          </Text>
-          <Text fontSize={'sm'}>{subLabel}</Text>
-        </Box>
-        <Flex
-          transition={'all .3s ease'}
-          transform={'translateX(-10px)'}
-          opacity={0}
-          justify={'flex-end'}
-          align={'center'}
-          flex={1}>
-          <Icon color={'pink.400'} w={5} h={5} as={ChevronRightIcon} />
-        </Flex>
-      </Stack>
-    </Box>
-  );
-};
-
-const MobileNav = () => {
-  return (
-    <Stack bg={useColorModeValue('white', 'gray.800')} p={4} display={{ md: 'none' }}>
-      {NAV_ITEMS.map((navItem) => (
-        <MobileNavItem key={navItem.label} {...navItem} />
-      ))}
-    </Stack>
-  );
-};
-
-const MobileNavItem = ({ label, children, href }) => {
-  const { isOpen, onToggle } = useDisclosure();
-
-  return (
-    <Stack spacing={4} onClick={children && onToggle}>
-      <Box
-        py={2}
-        as="a"
-        href={href ?? '#'}
-        justifyContent="space-between"
-        alignItems="center"
-        _hover={{
-          textDecoration: 'none',
-        }}>
-        <Text fontWeight={600} color={useColorModeValue('gray.600', 'gray.200')}>
-          {label}
-        </Text>
-        {children && (
-          <Icon
-            as={ChevronDownIcon}
-            transition={'all .25s ease-in-out'}
-            transform={isOpen ? 'rotate(180deg)' : ''}
-            w={6}
-            h={6}
-          />
-        )}
-      </Box>
-
-      <Collapse in={isOpen} animateOpacity style={{ marginTop: '0!important' }}>
-        <Stack
-          mt={2}
-          pl={4}
-          borderLeft={1}
-          borderStyle={'solid'}
-          borderColor={useColorModeValue('gray.200', 'gray.700')}
-          align={'start'}>
-          {children &&
-            children.map((child) => (
-              <Box as="a" key={child.label} py={2} href={child.href}>
-                {child.label}
-              </Box>
-            ))}
-        </Stack>
-      </Collapse>
-    </Stack>
-  );
-};
-
-const NAV_ITEMS = [
-    {label:'What is BitsBids',
-    href:'/whatis'
-    },
-    {
-        label:'Meet The Team',
-        href:'/team'
-    },
-    {
-        label:'Features',
-        href:"/#"
-    }
-]
+export default NavBar;

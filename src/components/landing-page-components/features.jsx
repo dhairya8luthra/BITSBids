@@ -55,7 +55,7 @@ const Card = ({ heading, description, icon, href }) => {
 
 export default function gridListWith() {
   return (
-    <Box p={4}>
+    <Box p={4} id = "featuresSection">
       <Stack spacing={4} as={Container} maxW={'3xl'} textAlign={'center'}>
         <Heading fontSize={{ base: '2xl', sm: '4xl' }} fontWeight={'bold'}>
           Features

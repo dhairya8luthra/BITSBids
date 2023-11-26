@@ -6,6 +6,7 @@ import Hero from '../components/landing-page-components/hero'
 import Footer from '../components/footerMain'
 import Intro from '../components/landing-page-components/intro'
 import Features from '../components/landing-page-components/features'
+
 export default function landingPage() {
   return (
     <>

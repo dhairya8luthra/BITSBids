@@ -12,14 +12,14 @@ import {
     Heading,
     Text,
     useColorModeValue,
-    Link,
+    
     Image,
   } from '@chakra-ui/react'
   import { useState } from 'react'
   import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
   import logo from '../assets/logo.svg'
   import { useGoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';  
-  
+  import {Link} from 'react-router-dom'
   export default function SignupCard() {
     const [showPassword, setShowPassword] = useState(false)
     const login = useGoogleLogin({
@@ -118,7 +118,7 @@ import {
                 </Button>
               <Stack pt={6}>
                 <Text align={'center'}>
-                  Already a user? <Link color={'blue.400'}>Login</Link>
+                  Already a user? <Link to ="/login" ><Text color={'blue.400'}>Login</Text></Link>
                 </Text>
               </Stack>
             </Stack>

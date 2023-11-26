@@ -12,9 +12,10 @@ import {
     Heading,
     Text,
     useColorModeValue,
-    Link,
+    
     Image,
   } from '@chakra-ui/react'
+  import {Link} from 'react-router-dom'
   import { useState } from 'react'
   import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
   import logo from '../assets/logo.svg'
@@ -104,7 +105,7 @@ import {
                 </Button>
               <Stack pt={6}>
                 <Text align={'center'}>
-                  Not an user? <Link color={'blue.400'}>Sign Up!</Link>
+                  Not an user? <Link to="/register" ><Text color={'blue.400'}>Sign Up!</Text></Link>
                 </Text>
               </Stack>
             </Stack>
